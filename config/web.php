@@ -2,13 +2,23 @@
 
 $config = [
     'id'         => 'basic',
+    'defaultRoute' => 'site/default/index',
+    'modules'    => [
+        'site' => [
+            'class' => 'app\modules\site\Module',
+        ],
+        'user' => [
+            'class' => 'app\modules\user\Module',
+        ],
+    ],
     'components' => [
         'user'         => [
-            'identityClass'   => 'app\models\User',
+            'identityClass'   => 'app\modules\user\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['user/default/login'],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'site/default/error',
         ],
     ],
 ];
