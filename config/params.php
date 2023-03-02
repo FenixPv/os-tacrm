@@ -5,4 +5,5 @@ return [
     'senderEmail'  => '',
     'senderName'   => '',
     'supportEmail' => '',
+    'user.passwordResetTokenExpire' => 3600
 ];

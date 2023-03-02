@@ -27,7 +27,7 @@ return [
                 '' => 'site/default/index',
                 'contact' => 'site/contact/index',
                 '<_a:(about|error)>' => 'site/default/<_a>',
-                '<_a:(login|logout)>' => 'user/default/<_a>',
+                '<_a:(login|logout|password-reset-request|password-reset)>' => 'user/default/<_a>',
 
                 '<_m:[\w\-]+>' => '<_m>/default/index',
                 '<_m:[\w\-]+>/<id:\d+>' => '<_m>/default/view',

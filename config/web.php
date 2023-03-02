@@ -13,7 +13,7 @@ $config = [
     ],
     'components' => [
         'user'         => [
-            'identityClass'   => 'app\modules\user\models\User',
+            'identityClass'   => 'app\modules\user\models\Users',
             'enableAutoLogin' => true,
             'loginUrl' => ['user/default/login'],
         ],
