@@ -8,6 +8,7 @@ $params = ArrayHelper::merge(
     require __DIR__ . '/params-local.php',
 );
 return [
+    'name'       => 'OS-TACRM',
     'basePath'   => dirname(__DIR__),
     'bootstrap'  => ['log'],
     'language'   => 'ru-RU',
@@ -24,18 +25,18 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
             'rules'           => [
-                '' => 'site/default/index',
-                'contact' => 'site/contact/index',
-                '<_a:(about|error)>' => 'site/default/<_a>',
+                ''                                                          => 'site/default/index',
+                'contact'                                                   => 'site/contact/index',
+                '<_a:(about|error)>'                                        => 'site/default/<_a>',
                 '<_a:(login|logout|password-reset-request|password-reset)>' => 'user/default/<_a>',
 
-                '<_m:[\w\-]+>' => '<_m>/default/index',
-                '<_m:[\w\-]+>/<id:\d+>' => '<_m>/default/view',
-                '<_m:[\w\-]+>/<id:\d+>/<_a:[\w-]+>' => '<_m>/default/<_a>',
-                '<_m:[\w\-]+>/<_c:[\w\-]+>' => '<_m>/<_c>/index',
-                '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>' => '<_m>/<_c>/view',
+                '<_m:[\w\-]+>'                                    => '<_m>/default/index',
+                '<_m:[\w\-]+>/<id:\d+>'                           => '<_m>/default/view',
+                '<_m:[\w\-]+>/<id:\d+>/<_a:[\w-]+>'               => '<_m>/default/<_a>',
+                '<_m:[\w\-]+>/<_c:[\w\-]+>'                       => '<_m>/<_c>/index',
+                '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>'              => '<_m>/<_c>/view',
                 '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => '<_m>/<_c>/<_a>',
-                '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w-]+>' => '<_m>/<_c>/<_a>',
+                '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w-]+>'           => '<_m>/<_c>/<_a>',
             ],
         ],
         'mailer'     => [

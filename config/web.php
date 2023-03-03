@@ -1,9 +1,10 @@
 <?php
 
 $config = [
-    'id'         => 'basic',
+    'id'           => 'basic',
+    'language'     => 'ru-RU',
     'defaultRoute' => 'site/default/index',
-    'modules'    => [
+    'modules'      => [
         'site' => [
             'class' => 'app\modules\site\Module',
         ],
@@ -11,11 +12,11 @@ $config = [
             'class' => 'app\modules\user\Module',
         ],
     ],
-    'components' => [
+    'components'   => [
         'user'         => [
             'identityClass'   => 'app\modules\user\models\Users',
             'enableAutoLogin' => true,
-            'loginUrl' => ['user/default/login'],
+            'loginUrl'        => ['user/default/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/default/error',
