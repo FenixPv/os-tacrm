@@ -5,11 +5,14 @@ $config = [
     'language'     => 'ru-RU',
     'defaultRoute' => 'site/default/index',
     'modules'      => [
-        'site' => [
+        'site'   => [
             'class' => 'app\modules\site\Module',
         ],
-        'user' => [
+        'user'   => [
             'class' => 'app\modules\user\Module',
+        ],
+        'cpanel' => [
+            'class' => 'app\modules\cpanel\Module',
         ],
     ],
     'components'   => [

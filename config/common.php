@@ -17,11 +17,11 @@ return [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
-        'db'         => [
+        'db'          => [
             'class'   => 'yii\db\Connection',
             'charset' => 'utf8',
         ],
-        'urlManager' => [
+        'urlManager'  => [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
             'rules'           => [
@@ -39,15 +39,15 @@ return [
                 '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w-]+>'           => '<_m>/<_c>/<_a>',
             ],
         ],
-        'mailer'     => [
+        'mailer'      => [
             'class'            => Mailer::class,
             'viewPath'         => '@app/mail',
             'useFileTransport' => true,
         ],
-        'cache'      => [
+        'cache'       => [
             'class' => 'yii\caching\FileCache',
         ],
-        'log'        => [
+        'log'         => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets'    => [
                 [
@@ -55,6 +55,9 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
     ],
     'params'     => $params,
