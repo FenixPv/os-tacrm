@@ -1,7 +1,9 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var string $content */
+/**
+ * @var yii\web\View $this
+ * @var string $content
+ */
 
 use app\assets\AppAsset;
 use app\widgets\Alert;
@@ -29,41 +31,66 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
-<header id="header">
+<header id="header" class="sticky-top">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
+        'brandLabel'            => Yii::$app->name,
+        'brandUrl'              => Yii::$app->homeUrl,
+        'innerContainerOptions' => ['class' => 'container-fluid'],
+        'options'               => ['class' => 'navbar-expand-md navbar-dark bg-dark'],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/default/index']],
-            ['label' => 'Contact', 'url' => ['/site/contact/index']],
-            Yii::$app->user->isGuest
-                ? ['label' => 'Login', 'url' => ['/user/default/login']]
-                : '<li class="nav-item">'
-                    . Html::beginForm(['/user/default/logout'])
-                    . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->login . ')',
-                        ['class' => 'nav-link btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
-        ]
-    ]);
+
+    if (Yii::$app->user->isGuest) {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav ms-auto'],
+            'items'   => [
+                ['label' => 'Войти', 'url' => ['/user/default/login'], 'class' => 'dropdown-menu-dark']
+            ],
+        ]);
+    } else {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav mx-auto'],
+            'items'   => [
+                [
+                    'label' => 'Контрольная панель',
+                    'items' => [
+                        ['label' => 'Пользователи', 'url' => '/cpanel/users/index'],
+                        ['label' => 'Все инструменты', 'url' => '/cpanel'],
+                    ],
+                ],
+            ],
+
+        ]);
+        /** @noinspection PhpUnhandledExceptionInspection */
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav ms-auto'],
+            'items'   => [
+                [
+                    'label' => Yii::$app->user->identity->login,
+                    'items' => [
+                        ['label' => 'Выйти', 'url' => '/user/default/logout'],
+                    ],
+                ],
+            ],
+        ]);
+    }
     NavBar::end();
     ?>
 </header>
 
-<main id="main" class="flex-shrink-0" role="main">
-    <div class="container">
-        <?php if (!empty($this->params['breadcrumbs'])): ?>
-            <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
-        <?php endif ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+<main id="main" class="my-3 flex-shrink-0" role="main">
+    <div class="container-fluid">
+        <?php
+        if (!empty($this->params['breadcrumbs'])) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            echo Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]);
+        }
+        /** @noinspection PhpUnhandledExceptionInspection */
+        echo Alert::widget();
+        echo $content;
+        ?>
     </div>
 </main>
 

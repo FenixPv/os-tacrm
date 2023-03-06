@@ -5,6 +5,7 @@ namespace app\modules\user\controllers;
 use app\modules\user\models\LoginForm;
 use app\modules\user\models\PasswordResetForm;
 use app\modules\user\models\PasswordResetRequestForm;
+use yii\base\Exception;
 use yii\base\InvalidArgumentException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -35,7 +36,7 @@ class DefaultController extends Controller
             'verbs'  => [
                 'class'   => VerbFilter::class,
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get'],
                 ],
             ],
         ];
@@ -96,7 +97,9 @@ class DefaultController extends Controller
     }
 
     /** @noinspection PhpUnused */
+
     /**
+     * @throws Exception
      * @throws BadRequestHttpException
      */
     public function actionPasswordReset($token): Response|string
