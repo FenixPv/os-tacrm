@@ -23,6 +23,7 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property-read mixed $statusName
  * @property-write mixed $password
+ * @property-read null|string $authKey
  * @property int $status
  */
 class Users extends ActiveRecord implements IdentityInterface
@@ -33,7 +34,7 @@ class Users extends ActiveRecord implements IdentityInterface
     public function behaviors(): array
     {
         return [
-            TimestampBehavior::className(),
+            TimestampBehavior::class,
         ];
     }
 

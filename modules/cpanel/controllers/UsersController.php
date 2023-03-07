@@ -4,10 +4,14 @@ namespace app\modules\cpanel\controllers;
 
 use app\modules\user\models\Users;
 use app\modules\cpanel\models\UserSearch;
+use Throwable;
 use Yii;
+use yii\db\StaleObjectException;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * UsersController implements the CRUD actions for Users model.
@@ -20,17 +24,21 @@ class UsersController extends Controller
      */
     public function behaviors(): array
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::class,
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'verbs'  => [
+                'class' => VerbFilter::class,
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+//                        'actions' => ['index'],
+                        'roles' => ['admin'],
                     ],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
@@ -38,13 +46,13 @@ class UsersController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
-        $searchModel = new UserSearch();
+        $searchModel  = new UserSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -54,8 +62,9 @@ class UsersController extends Controller
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
+     * @noinspection PhpUnused
      */
-    public function actionView($id)
+    public function actionView(int $id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -65,9 +74,10 @@ class UsersController extends Controller
     /**
      * Creates a new Users model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * @return string|Response
+     * @noinspection PhpUnused
      */
-    public function actionCreate()
+    public function actionCreate(): Response|string
     {
         $model = new Users();
 
@@ -88,10 +98,11 @@ class UsersController extends Controller
      * Updates an existing Users model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
-     * @return string|\yii\web\Response
+     * @return string|Response
      * @throws NotFoundHttpException if the model cannot be found
+     * @noinspection PhpUnused
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id): Response|string
     {
         $model = $this->findModel($id);
 
@@ -108,10 +119,13 @@ class UsersController extends Controller
      * Deletes an existing Users model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return Response
+     * @throws NotFoundHttpException
+     * @throws StaleObjectException
+     * @throws Throwable
+     * @noinspection PhpUnused
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id): Response
     {
         $this->findModel($id)->delete();
 
@@ -125,7 +139,7 @@ class UsersController extends Controller
      * @return Users the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel(int $id): Users
     {
         if (($model = Users::findOne(['id' => $id])) !== null) {
             return $model;

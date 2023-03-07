@@ -59,6 +59,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                         ['label' => 'Пользователи', 'url' => '/cpanel/users/index'],
                         ['label' => 'Все инструменты', 'url' => '/cpanel'],
                     ],
+                    'visible' => Yii::$app->user->can('viewCpanel'),
                 ],
             ],
 
