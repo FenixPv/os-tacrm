@@ -4,25 +4,27 @@ namespace app\modules\cpanel\controllers;
 
 use app\modules\user\models\Users;
 use app\modules\cpanel\models\UserSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * UsersController implements the CRUD actions for Users model.
+ * @noinspection PhpUnused
  */
 class UsersController extends Controller
 {
     /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],

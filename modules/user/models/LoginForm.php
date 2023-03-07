@@ -32,6 +32,15 @@ class LoginForm extends Model
         ];
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+            'login'      => 'Имя пользователя',
+            'password'   => 'Пароль',
+            'rememberMe' => 'Запомнить меня',
+        ];
+    }
+
     /** @noinspection PhpUnused */
     public function validatePassword()
     {
@@ -53,7 +62,7 @@ class LoginForm extends Model
     public function login(): bool
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 3600);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 3600);
         }
         return false;
     }
