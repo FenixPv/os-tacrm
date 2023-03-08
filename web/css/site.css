@@ -86,3 +86,16 @@ a.desc:after {
 .user-default-login {
     max-width: 25rem;
 }
+.breadcrumb {
+    background-color: #f5f5f5;
+    padding: 1rem;
+}
+.breadcrumb-item a {
+    color: #212529;
+}
+th a {
+    color: #212529;
+}
+th a:hover {
+    color: #999999;
+}

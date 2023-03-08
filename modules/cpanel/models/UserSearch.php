@@ -11,6 +11,8 @@ use app\modules\user\models\Users;
  */
 class UserSearch extends Users
 {
+    public $userRole;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +20,7 @@ class UserSearch extends Users
     {
         return [
             [['id', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['login', 'email_confirm_token', 'password_hash', 'password_reset_token', 'email'], 'safe'],
+            [['login', 'email_confirm_token', 'password_hash', 'password_reset_token', 'email', 'userRole'], 'safe'],
         ];
     }
 
@@ -40,12 +42,26 @@ class UserSearch extends Users
      */
     public function search($params)
     {
-        $query = Users::find();
+        $query = Users::find()->joinWith([
+            'userRole'
+        ]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'id',
+                    'login',
+                    'email',
+                    'status',
+                    'userRole' => [
+                        'asc' => [ 'auth_assignment.item_name' => SORT_ASC ],
+                        'desc' => [ 'auth_assignment.item_name' => SORT_DESC ],
+                    ],
+                ],
+            ],
         ]);
 
         $this->load($params);
@@ -58,17 +74,18 @@ class UserSearch extends Users
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'id'         => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'status' => $this->status,
+            'status'     => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'login', $this->login])
             ->andFilterWhere(['like', 'email_confirm_token', $this->email_confirm_token])
             ->andFilterWhere(['like', 'password_hash', $this->password_hash])
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
-            ->andFilterWhere(['like', 'email', $this->email]);
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'item_name', $this->userRole]);
 
         return $dataProvider;
     }

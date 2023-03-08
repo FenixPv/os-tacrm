@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Exception;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
@@ -36,6 +37,10 @@ class Users extends ActiveRecord implements IdentityInterface
         return [
             TimestampBehavior::class,
         ];
+    }
+    public function getUserRole(): ActiveQuery
+    {
+        return $this->hasOne(UserRole::class, ['user_id' => 'id']);
     }
 
     public function rules(): array
@@ -74,12 +79,13 @@ class Users extends ActiveRecord implements IdentityInterface
     public function attributeLabels(): array
     {
         return [
-            'id'         => 'ID',
+            'id'         => '#',
             'created_at' => 'Создан',
             'updated_at' => 'Обновлён',
             'login'      => 'Имя пользователя',
             'email'      => 'Email',
             'status'     => 'Статус',
+            'userRole' => 'Роль',
         ];
     }
 
