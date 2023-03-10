@@ -2,6 +2,7 @@
 
 use app\modules\user\models\Users;
 use yii\grid\DataColumn;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -11,7 +12,7 @@ use yii\grid\GridView;
 /** @var app\modules\cpanel\models\UserSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title                   = Yii::t('app', 'Управление пользователями');
+$this->title                   = 'Управление пользователями';
 $this->params['breadcrumbs'][] = ['label' => 'Контрольная панель', 'url' => ['/cpanel']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="text-end my-3">
         <?php
-        echo Html::a(Yii::t('app', 'Добавить пользователя'), ['create'], ['class' => 'btn btn-success']);
+        echo Html::a('Добавить пользователя', ['create'], ['class' => 'btn btn-success']);
         ?>
     </div>
 
@@ -42,13 +43,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => [
                     'class' => 'text-center',
                 ],
+                'value' => function ($model) {
+                    /** @var Users $model */
+                    return Html::a(Html::encode($model->id), ['view', 'id' => $model->id]);
+                },
+                'format' => 'raw'
             ],
-            'login',
+            [
+                    'attribute' => 'login',
+                    'value' => function ($model) {
+                        /** @var Users $model */
+                        return Html::a(Html::encode($model->login), ['view', 'id' => $model->id]);
+                    },
+                    'format' => 'raw'
+            ],
             'email:email',
+            [
+                'attribute' => 'userRole',
+                'format'    => 'raw',
+                'value'     => function ($role) {
+                    return Yii::$app->authManager->getRole($role->userRole->item_name)->description;
+                },
+                'filter' => ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description'),
+            ],
             [
                 'filter'    => Users::getStatusesArray(),
                 'attribute' => 'status',
                 'format'    => 'raw',
+                'contentOptions' => [
+                    'class' => 'text-center',
+                ],
                 'value'     => function ($model, $key, $index, $column) {
                     /** @var Users $model */
                     /** @var DataColumn $column */
@@ -63,16 +87,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'userRole',
-                'format'    => 'raw',
-                'value'     => function ($role) {
-                    return $role->userRole->item_name;
-                }
-
-            ],
-            [
                 'class'      => ActionColumn::class,
                 'header'     => 'Действия',
+                'contentOptions' => [
+                    'class' => 'text-center',
+                ],
                 'urlCreator' => function ($action, Users $model) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 },
@@ -81,6 +100,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ],
     ]); ?>
-
 
 </div>

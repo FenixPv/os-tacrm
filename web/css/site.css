@@ -99,3 +99,10 @@ th a {
 th a:hover {
     color: #999999;
 }
+table td a {
+    color: #212529;
+    text-decoration: none;
+}
+table td a:hover {
+    color: #999999;
+}

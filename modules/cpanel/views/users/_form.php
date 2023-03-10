@@ -10,23 +10,28 @@ use yii\widgets\ActiveForm;
 
 <div class="users-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    $form = ActiveForm::begin();
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    ?>
+
+<!--    --><?php //= $form->field($model, 'created_at')->textInput() ?>
+
+<!--    --><?php //= $form->field($model, 'updated_at')->textInput() ?>
 
     <?= $form->field($model, 'login')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'email_confirm_token')->textInput(['maxlength' => true]) ?>
+<!--    --><?php //= $form->field($model, 'email_confirm_token')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'password_reset_token')->textInput(['maxlength' => true]) ?>
+<!--    --><?php //= $form->field($model, 'password_reset_token')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status')->textInput() ?>
+
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

@@ -27,7 +27,7 @@ class UserSearch extends Users
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
+    public function scenarios(): array
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
@@ -40,7 +40,7 @@ class UserSearch extends Users
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search(array $params): ActiveDataProvider
     {
         $query = Users::find()->joinWith([
             'userRole'

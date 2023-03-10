@@ -8,7 +8,7 @@ use yii\db\ActiveRecord;
 
 
 /**
-
+ * @property-read ActiveQuery $roles
  * @property-read ActiveQuery $user
  */
 
@@ -34,6 +34,13 @@ class UserRole extends ActiveRecord
     {
         return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
+
+    /** @noinspection PhpUnused */
+    public function getRoles(): ActiveQuery
+    {
+        return $this->hasMany(Roles::class, ['name' => 'item_name']);
+    }
+
     public static function tableName(): string
     {
         return 'auth_assignment';
@@ -46,4 +53,5 @@ class UserRole extends ActiveRecord
             'user_id'   => 'Пользователь',
         ];
     }
+
 }

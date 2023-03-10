@@ -25,6 +25,7 @@ use yii\web\IdentityInterface;
  * @property-read mixed $statusName
  * @property-write mixed $password
  * @property-read null|string $authKey
+ * @property-read ActiveQuery $userRole
  * @property int $status
  */
 class Users extends ActiveRecord implements IdentityInterface
@@ -38,6 +39,8 @@ class Users extends ActiveRecord implements IdentityInterface
             TimestampBehavior::class,
         ];
     }
+
+    /** @noinspection PhpUnused */
     public function getUserRole(): ActiveQuery
     {
         return $this->hasOne(UserRole::class, ['user_id' => 'id']);
@@ -85,7 +88,7 @@ class Users extends ActiveRecord implements IdentityInterface
             'login'      => 'Имя пользователя',
             'email'      => 'Email',
             'status'     => 'Статус',
-            'userRole' => 'Роль',
+            'userRole'   => 'Роль',
         ];
     }
 
@@ -142,7 +145,7 @@ class Users extends ActiveRecord implements IdentityInterface
         }
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'status'               => self::STATUS_ACTIVE,
         ]);
     }
 
@@ -151,9 +154,9 @@ class Users extends ActiveRecord implements IdentityInterface
         if (empty($token)) {
             return false;
         }
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
-        $parts = explode('_', $token);
-        $timestamp = (int) end($parts);
+        $expire    = Yii::$app->params['user.passwordResetTokenExpire'];
+        $parts     = explode('_', $token);
+        $timestamp = (int)end($parts);
         return $timestamp + $expire >= time();
     }
 
