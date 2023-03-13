@@ -2,13 +2,14 @@
 
 namespace app\modules\cpanel\controllers;
 
+use app\modules\user\models\UserRole;
 use app\modules\user\models\Users;
 use app\modules\cpanel\models\UserSearch;
 use Throwable;
 use Yii;
+use yii\base\Exception;
 use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -34,7 +35,7 @@ class UsersController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-//                        'actions' => ['index'],
+                        //                        'actions' => ['index'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -77,21 +78,34 @@ class UsersController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|Response
      * @noinspection PhpUnused
+     * @throws Exception
      */
     public function actionCreate(): Response|string
     {
-        $model = new Users();
+        $user  = new Users();
+        $roles = new UserRole();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($user->load($this->request->post()) && $roles->load($this->request->post())) {
+                $user->password_hash = Yii::$app->security->generatePasswordHash($user->password_hash);
+                $user->created_at    = time();
+                $user->updated_at    = time();
+                $user->validate();
+                $user->save();
+
+                $roles->created_at = time();
+                $roles->user_id    = $user->id;
+                $roles->validate();
+                $roles->save();
+
+                return $this->redirect(['view', 'id' => $user->id]);
             }
-        } else {
-            $model->loadDefaultValues();
+
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'user'  => $user,
+            'roles' => $roles,
         ]);
     }
 

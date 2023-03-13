@@ -4,8 +4,6 @@ use app\modules\user\models\Users;
 use yii\grid\DataColumn;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
@@ -86,17 +84,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $value === null ? $column->grid->emptyCell : $html;
                 }
             ],
-            [
-                'class'      => ActionColumn::class,
-                'header'     => 'Действия',
-                'contentOptions' => [
-                    'class' => 'text-center',
-                ],
-                'urlCreator' => function ($action, Users $model) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                },
-                'template'   => '{view} {update}{link}',
-            ],
+//            [
+//                'class'      => ActionColumn::class,
+//                'header'     => 'Действия',
+//                'contentOptions' => [
+//                    'class' => 'text-center',
+//                ],
+//                'urlCreator' => function ($action, Users $model) {
+//                    return Url::toRoute([$action, 'id' => $model->id]);
+//                },
+//                'template'   => '{view} {update}{link}',
+//            ],
 
         ],
     ]); ?>

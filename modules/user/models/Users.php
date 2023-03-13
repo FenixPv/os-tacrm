@@ -54,6 +54,7 @@ class Users extends ActiveRecord implements IdentityInterface
             [['login', 'email_confirm_token', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['login'], 'unique'],
             [['email'], 'unique'],
+            ['email', 'email'],
         ];
     }
 
@@ -82,13 +83,14 @@ class Users extends ActiveRecord implements IdentityInterface
     public function attributeLabels(): array
     {
         return [
-            'id'         => '#',
-            'created_at' => 'Создан',
-            'updated_at' => 'Обновлён',
-            'login'      => 'Имя пользователя',
-            'email'      => 'Email',
-            'status'     => 'Статус',
-            'userRole'   => 'Роль',
+            'id'            => '#',
+            'created_at'    => 'Создан',
+            'updated_at'    => 'Обновлён',
+            'login'         => 'Имя пользователя',
+            'email'         => 'Email',
+            'status'        => 'Статус',
+            'userRole'      => 'Роль',
+            'password_hash' => 'Пароль',
         ];
     }
 

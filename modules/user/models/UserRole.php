@@ -5,22 +5,21 @@ namespace app\modules\user\models;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 
 /**
  * @property-read ActiveQuery $roles
  * @property-read ActiveQuery $user
+ * @property-read array $rolesArray
+ * @property string $item_name
+ * @property int $created_at
+ * @property int $user_id
  */
 
 class UserRole extends ActiveRecord
 {
-
-    public function behaviors(): array
-    {
-        return [
-            TimestampBehavior::class,
-        ];
-    }
+//    public $item_name;
 
     public function rules(): array
     {
@@ -52,6 +51,21 @@ class UserRole extends ActiveRecord
             'item_name' => 'Роль',
             'user_id'   => 'Пользователь',
         ];
+    }
+    public function attributeLabels(): array
+    {
+        return [
+            'item_name' => 'Роль',
+            'user_id' => 'user_id',
+            'created_at' => 'created_at'
+        ];
+    }
+
+    public function getRolesArray() :array
+    {
+        return ArrayHelper::map(Roles::find()
+            ->indexBy('name')
+            ->where('type = 1')->all(), 'name', 'description');
     }
 
 }
